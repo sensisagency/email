@@ -11,6 +11,8 @@ require "vendor/autoload.php";
 //Create an instance; passing `true` enables exceptions
 $mail = new PHPMailer(true);
 
+$remitente = "";
+
 try {
     //Server settings
     $mail->SMTPDebug = SMTP::DEBUG_SERVER; //Enable verbose debug output
@@ -23,11 +25,10 @@ try {
     $mail->Port = 465; //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
     //Recipients
-    $mail->setFrom("nizagenda5@gmail.com", "Niz");
-    // $mail->addAddress('');     //Add a recipient
-    $mail->addAddress("cegiro7981@lewenbo.com"); //Add a recipient
+    $mail->setFrom("example@gmail.com", "Name");
+    $mail->addAddress($remitente); //Add a recipient
 
-    // $mail->addAttachment('./images/foto.jpg', 'fotoXD');    //Optional name
+    // $mail->addAttachment('./images/foto.jpg', 'foto');    //Optional name
 
     //Content
     $mail->isHTML(true); //Set email format to HTML
@@ -37,7 +38,7 @@ try {
     $mail->msgHTML(file_get_contents("mail.html"), __DIR__);
     $mail->AltBody = "This is the body in plain text for non-HTML mail clients";
     $mail->send();
-    echo "Mail sent";
+    echo "Mail sent to: " . $remitente;
 } catch (Exception $e) {
     echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
 }
