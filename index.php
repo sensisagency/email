@@ -8,19 +8,22 @@ require "vendor/autoload.php";
 $mail = new PHPMailer(true);
 
 $sender = '';
+$password = '';
+
+$receiver = '';
 
 try {
     $mail->SMTPDebug = SMTP::DEBUG_SERVER;
     $mail->isSMTP();
     $mail->Host = "smtp.gmail.com";
     $mail->SMTPAuth = true;
-    $mail->Username = "example@gmail.com";
-    $mail->Password = "secret";
+    $mail->Username   = $sender;
+    $mail->Password   = $password;
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
     $mail->Port = 465;
 
-    $mail->setFrom("example@gmail.com", "Name");
-    $mail->addAddress($sender);
+    $mail->setFrom($sender, "Custom Name");
+    $mail->addAddress($receiver);
 
     $mail->isHTML(true);
     $mail->Subject = "Here is the subject";
@@ -35,7 +38,7 @@ try {
 
     $mail->AltBody = "This is the body in plain text for non-HTML mail clients";
     $mail->send();
-    echo "Mail sent to: " . $sender;
+    echo "Mail sent to: " . $receiver;
 } catch (Exception $e) {
     echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
 }
